@@ -287,17 +287,15 @@ class alphaess:
 
         todaydate = date.today().strftime("%Y-%m-%d")
         json = {
-            "beginDay": todaydate,
-            "endDay": todaydate,
-            "tDay": todaydate,
             "isOEM": 0,
-            "SN": serial,
-            "userId": "",
-            "noLoading": True,
+            "sDate": todaydate,
+            "sn": serial,
+            "szDay": todaydate,
+            "userId": serial,
         }
 
         logger.debug("Trying to retrieve daily statistics for serial %s, date %s", serial, todaydate)
-        return await self.__post_data(path="Power/SticsByPeriod", json=json)
+        return await self.__post_data(path="Power/SticsByDay", json=json)
 
     async def __system_statistics(self, serial):
         """Get system statistics"""
@@ -326,7 +324,7 @@ class alphaess:
             "sys_sn": serial
         }
         logger.debug("Trying to retrieve power data for serial %s, date %s", serial, todaydate)
-        return await self.__post_data(path=f"ESS/GetLastPowerDataBySN?noLoading=true&sys_sn={serial}", json=json)
+        return await self.__get_data(path=f"ESS/GetLastPowerDataBySN?noLoading=true&sys_sn={serial}") #, json=json)
 
     async def __settings(self, systemid):
         """Retrieve ESS custom settings by serial number from Alpha ESS"""
